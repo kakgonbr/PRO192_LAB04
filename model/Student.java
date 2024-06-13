@@ -107,18 +107,20 @@ public final class Student {
 
     @Override
     public String toString(){
-        return "\n"
-        + "-".repeat(50)
-        + "\nStudent ID: " + getID()
-        + "\nName: " + getName()
-        + "\nDate of birth: " + getDateOfBirth()
-        + "\nGrades:"
-        + String.format("\n\tJava: %.2f", getGradeJava())
-        + String.format("\n\tHTML: %.2f", getGradeHTML())
-        + String.format("\n\tAverage: %.2f", getGradeAverage())
-        // + "\n\tJava: " + getGradeJava()
-        // + "\n\tHTML: " + getGradeHTML()
-        // + "\n\tAverage: " + getGradeAverage()
-        ;
+        return String.format("\r| %4s | %30.30s | %15.15s | %2.2f | %2.2f | %2.2f |\n", getID() + " ".repeat(getID() > 0 ? (3 - (int)Math.log10(getID())) / 2 : 2),
+                                                                                                     getName() + " ".repeat((30 - getName().length()) / 2), 
+                                                                                                     getDateOfBirth(), getGradeJava(), getGradeHTML(), getGradeAverage());
+        // return "\n"
+        // + "-".repeat(50)
+        // + "\nStudent ID: " + getID()
+        // + "\nName: " + getName()
+        // + "\nDate of birth: " + getDateOfBirth()
+        // + "\nGrades:"
+        // + String.format("\n\tJava: %.2f", getGradeJava())
+        // + String.format("\n\tHTML: %.2f", getGradeHTML())
+        // + String.format("\n\tAverage: %.2f", getGradeAverage())
+        // // + "\n\tJava: " + getGradeJava()
+        // // + "\n\tHTML: " + getGradeHTML()
+        // // + "\n\tAverage: " + getGradeAverage()
     }
 }

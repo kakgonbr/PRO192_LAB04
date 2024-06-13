@@ -3,32 +3,35 @@ package controller;
 public final class SchoolManagement extends view.Menu<String> {
     private model.School school = new model.School();
     private static String inp;
-    private view.Menu<String> subMenu = new view.Menu<String>(new String[]{"Search by date of birth", "Search by average grade"}, "Choose search method")
+    private final view.Menu<String> subMenu = new view.Menu<String>(new String[]{"Search by date of birth", "Search by average grade"}, "Choose search method")
     {
         @Override
         protected boolean execute(int choice) {
             switch (choice) {
             case 1:
-                for (final model.Student student: school.searchStudent(misc.Utils.getLine("Enter date of birth: ")))
-                    System.out.println(student);
+                inp = misc.Utils.getLine("Enter date of birth: ");
+                System.out.printf("\n| %4s | %30.30s | %15.15s | %4s | %4s | %4s |\n\033[31mNo student found\033[0m", "ID" + " ", "Name" + " ".repeat(13), "Date of birth", "Java", "HTML", "Avg");
+                for (final model.Student student: school.searchStudent(inp))
+                    System.out.print(student);
             break;
             case 2:
                 double boundUpper;
                 double boundLower;
                 if ((inp = misc.Utils.getLine("Enter lower bound: ", misc.Utils.validations.vDouble)).isBlank() || (boundLower = Double.parseDouble(inp)) < 0){
-                    System.out.println("Invalid lower bound, canceling.");
+                    System.out.println("\033[31mInvalid lower bound, canceling.\033[0m");
                     return false;
                 }
                 if ((inp = misc.Utils.getLine("Enter uppper bound: ", misc.Utils.validations.vDouble)).isBlank() || (boundUpper = Double.parseDouble(inp)) > 10.d){
-                    System.out.println("Invalid upper bound, canceling.");
+                    System.out.println("\033[31mInvalid upper bound, canceling.\033[0m");
                     return false;
                 }
                 if (boundUpper < boundLower) {
-                    System.out.println("Invalid upper and lower bounds, lower bound cannot be larger than upper.");
+                    System.out.println("\033[31mInvalid upper and lower bounds, lower bound cannot be larger than upper.\033[0m");
                     return false;
                 }
+                System.out.printf("\n| %4s | %30.30s | %15.15s | %4s | %4s | %4s |\n\033[31mNo student found\033[0m", "ID" + " ", "Name" + " ".repeat(13), "Date of birth", "Java", "HTML", "Avg");
                 for (final model.Student student: school.searchStudent(boundLower, boundUpper))
-                    System.out.println(student);
+                    System.out.print(student);
             break;
             default:
                 System.out.println("Invalid input, canceling.");
@@ -42,15 +45,16 @@ public final class SchoolManagement extends view.Menu<String> {
                             "Add a student",
                             "Sort students by average grade",
                             "Get and save average of students",
-                            "Get statistics or a list of students born before 2000"}, "School management");
+                            "Get statistics or a list of students born before 2000", "Exit"}, "School management");
     }
 
     @Override
     protected boolean execute(int choice) {
         switch (choice) {
             case 1:
+                System.out.printf("\n| %4s | %30.30s | %15.15s | %4s | %4s | %4s |\n\033[31mNo student in database\033[0m", "ID" + " ", "Name" + " ".repeat(13), "Date of birth", "Java", "HTML", "Avg");
                 for (final model.Student entry : school.getStudentList())
-                    System.out.println(entry);
+                    System.out.print(entry);
             break;
             case 2:
                 subMenu.display();
@@ -61,21 +65,23 @@ public final class SchoolManagement extends view.Menu<String> {
                 school.addStudent(student);
             break;
             case 4:
+                System.out.printf("\n| %4s | %30.30s | %15.15s | %4s | %4s | %4s |\n\033[31mNo student in database\033[0m", "ID" + " ", "Name" + " ".repeat(13), "Date of birth", "Java", "HTML", "Avg");
                 for (final model.Student entry : school.getSortedStudents())
-                    System.out.println(entry);
+                    System.out.print(entry);
             break;
             case 5:
                 System.out.println(String.format("School average: %.2f", school.getSchoolAverage()));
             break;
             case 6:
+                System.out.printf("\n| %4s | %30.30s | %15.15s | %4s | %4s | %4s |\n\033[31mNo student found\033[0m", "ID" + " ", "Name" + " ".repeat(13), "Date of birth", "Java", "HTML", "Avg");
                 for (final model.Student pre2000Student : school.getPre2000Stats())
-                    System.out.println(pre2000Student);
+                    System.out.print(pre2000Student);
             break;
             case 7:
                 System.out.println("Exiting.");
                 return false;        
             default:
-                System.out.println("INVALID INPUT.");
+                System.out.println("\033[31mINVALID INPUT.\033[0m");
         }
         return true;
     }

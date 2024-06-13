@@ -24,7 +24,7 @@ public class School {
 
     public double getSchoolAverage(){
         double average = 0;
-        for (Student student : students)
+        for (final Student student : students)
             average += student.getGradeAverage();
         
         return (schoolAverage = average / students.size());
@@ -53,6 +53,7 @@ public class School {
     public ArrayList<Student> searchStudent(double boundLower, double boundUpper){
         ArrayList<Student> matches = new ArrayList<>();
 
+        // for (const Student& student : students)
         for (final Student student : students){
             if (student.getGradeAverage() >= boundLower && student.getGradeAverage() <= boundUpper) matches.add(student);
         }
@@ -73,35 +74,11 @@ public class School {
     }
 
     public ArrayList<Student> getPre2000Stats(){
-        // String nameList = "";
-        // double gradeAverageJava = 0;
-        // double gradeAverageHTML = 0;
-
-        // int studentCount = 0;
-        // for (final Student student : students){
-            // java.util.Date date = new java.util.Date(student.getLongDateOfBirth());
-            // java.util.Calendar calendar = new java.util.GregorianCalendar();
-            // calendar.setTime(date);
-        //     if(calendar.get(java.util.Calendar.YEAR) < 2000){
-        //         studentCount++;
-        //         nameList += student.getName() + ", ";
-        //         gradeAverageJava += student.getGradeJava();
-        //         gradeAverageHTML += student.getGradeHTML();
-        //     }
-        // }
-        // if (studentCount == 0) return "";
-
-        // return "\n"
-        // + "-".repeat(15) + "Statistics of students born before 2000:" + "-".repeat(15)
-        // + "\nList: " + nameList + "\b\b"
-        // + String.format("\nAverage Java grade: %.2f", (gradeAverageJava / studentCount))
-        // + String.format("\nAverage HTML grade: %.2f", (gradeAverageHTML / studentCount))
-        // ;
         ArrayList<Student> result = new ArrayList<>();
 
         for (final Student student: students){
             java.util.Date date = new java.util.Date(student.getLongDateOfBirth());
-            if (date.before(new java.util.Date(946684800000l)))
+            if (date.before(new java.util.Date(946684800000L)))
                 result.add(student);
         }
         return result;
